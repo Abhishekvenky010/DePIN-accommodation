@@ -1,6 +1,6 @@
 "use client";
 import { API_BACKEND_URL } from "@/config";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth } from "@/components/simple-auth-provider";
 import axios from "axios";
 import { useEffect, useState } from "react";
 

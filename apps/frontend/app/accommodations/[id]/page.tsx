@@ -8,11 +8,11 @@ import { API_BACKEND_URL } from '@/config';
 import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@/components/simple-auth-provider';
 import {
   GatedSignInButton,
   GatedSignUpButton,
-} from '@/components/clerk/gated-components';
+} from '@/components/simple-sign-in-button';
 import { Activity, ArrowLeft, Calendar, Wallet } from 'lucide-react';
 import { useSolWallet } from '@/components/solana/wallet-provider';
 import {

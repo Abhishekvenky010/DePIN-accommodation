@@ -27,6 +27,11 @@ out/
 build
 dist
 
+# TypeScript build cache
+*.tsbuildinfo
+
+# Solana / Rust build output
+target/
 
 # Debug
 npm-debug.log*

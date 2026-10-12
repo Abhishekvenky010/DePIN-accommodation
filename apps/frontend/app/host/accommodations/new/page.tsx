@@ -6,12 +6,12 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { API_BACKEND_URL } from '@/config';
 import axios from 'axios';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@/components/simple-auth-provider';
 import Link from 'next/link';
 import {
   GatedSignedOut,
   GatedSignInButton,
-} from '@/components/clerk/gated-components';
+} from '@/components/simple-sign-in-button';
 
 interface AccommodationFormData {
   title: string;

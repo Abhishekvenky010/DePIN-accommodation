@@ -6,7 +6,7 @@ import { ChevronDown, ChevronUp, Globe, Plus, Moon, Sun } from 'lucide-react';
 import { useWebsites } from '@/hooks/useWebsites';
 import axios from 'axios';
 import { API_BACKEND_URL } from '@/config';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth } from '@/components/simple-auth-provider';
 
 type UptimeStatus = "good" | "bad" | "unknown";
 

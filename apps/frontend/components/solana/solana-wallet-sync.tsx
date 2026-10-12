@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth } from "@/components/simple-auth-provider";
 import axios from "axios";
 import { API_BACKEND_URL } from "@/config";
 import { useSolWallet } from "@/components/solana/wallet-provider";

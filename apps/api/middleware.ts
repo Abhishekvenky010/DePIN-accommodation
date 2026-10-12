@@ -1,32 +1,15 @@
 import type { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
-import { JWT_PUBLIC_KEY } from "./config";
 
+/**
+ * Development middleware: skip JWT validation and set a dev user ID.
+ * Replace with real auth middleware when JWT verification is enabled.
+ */
 export function authMiddleware(
-    req: Request,
-    res: Response,
-    next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction
 ) {
-    const authorization = req.headers.authorization;
-
-    if (!authorization?.startsWith("Bearer ")) {
-        res.status(401).json({ error: "Unauthorized" });
-        return;
-    }
-
-    const token = authorization.slice("Bearer ".length);
-
-    try {
-        const decoded = jwt.verify(token, JWT_PUBLIC_KEY);
-
-        if (typeof decoded === "string" || !decoded.sub) {
-            res.status(401).json({ error: "Unauthorized" });
-            return;
-        }
-
-        req.userId = decoded.sub;
-        next();
-    } catch {
-        res.status(401).json({ error: "Invalid or expired token" });
-    }
+  // DEV: fixed user ID for development
+  req.userId = "dev-user-123";
+  next();
 }

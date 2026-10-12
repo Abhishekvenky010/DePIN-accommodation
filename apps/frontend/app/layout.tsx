@@ -5,7 +5,7 @@ import { Appbar } from "../components/Appbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SolanaWalletProvider } from "@/components/solana/wallet-provider";
 import { SolanaWalletSync } from "@/components/solana/solana-wallet-sync";
-import { ClerkProviderGate } from "@/components/clerk-provider-gate";
+import { SimpleAuthProvider } from "@/components/simple-auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <ClerkProviderGate>
+      <SimpleAuthProvider>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
@@ -40,6 +40,6 @@ export default function RootLayout({
             </SolanaWalletProvider>
           </ThemeProvider>
         </body>
-      </ClerkProviderGate>
+      </SimpleAuthProvider>
   );
 }
