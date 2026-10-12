@@ -17,6 +17,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+/**
+ * Express types route parameters as `string | string[]`, so normalise them to a
+ * plain string before they are passed to Prisma filters.
+ */
+function routeParam(value: string | string[] | undefined): string {
+    if (Array.isArray(value)) return value[0] ?? "";
+    return value ?? "";
+}
+
 // --- Accommodations Endpoints ---
 
 // Create an accommodation listing
@@ -108,7 +117,7 @@ app.get("/api/v1/accommodations", async (req, res) => {
 // Get a specific accommodation by ID
 app.get("/api/v1/accommodations/:id", async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = routeParam(req.params.id);
 
         const accommodation = await prismaClient.accommodation.findFirst({
             where: { id, status: "Active" },
@@ -381,7 +390,7 @@ app.get("/api/v1/bookings", authMiddleware, async (req, res) => {
 // Get a specific booking by ID
 app.get("/api/v1/bookings/:id", authMiddleware, async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = routeParam(req.params.id);
         const clerkId = req.userId!;
 
         const user = await prismaClient.user.findUnique({
@@ -503,7 +512,8 @@ async function verifyOnChainTransition(
 
 app.post("/api/v1/bookings/:id/:action", authMiddleware, async (req, res) => {
     try {
-        const { id, action } = req.params;
+        const { action } = req.params;
+        const id = routeParam(req.params.id);
         const clerkId = req.userId!;
 
         const allowedActions: OnChainAction[] = ["accept", "reject", "cancel", "complete"];
@@ -695,7 +705,7 @@ app.post("/api/v1/bookings/:id/:action", authMiddleware, async (req, res) => {
 // Record and verify the Solana funding transaction for a booking
 app.post("/api/v1/bookings/:id/solana", authMiddleware, async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = routeParam(req.params.id);
         const { solanaSignature, solanaBookingAccount, solanaStatus, solanaAmount } = req.body;
         const clerkId = req.userId!;
 

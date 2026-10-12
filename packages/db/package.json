@@ -12,6 +12,7 @@
     "./prisma/schema.prisma": "./prisma/schema.prisma"
   },
   "scripts": {
+    "postinstall": "prisma generate",
     "generate": "prisma generate",
     "migrate": "prisma migrate deploy",
     "migrate:dev": "prisma migrate dev",
