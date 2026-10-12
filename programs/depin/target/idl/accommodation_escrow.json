@@ -1,0 +1,282 @@
+{
+  "address": "Aa9c2mKRb9VgZAR6GpgLA8ujRjuzUFLM7EYJQryjWJmH",
+  "metadata": {
+    "name": "accommodation_escrow",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "confirm_completion",
+      "discriminator": [
+        187,
+        31,
+        6,
+        48,
+        117,
+        161,
+        2,
+        243
+      ],
+      "accounts": [
+        {
+          "name": "escrow",
+          "writable": true
+        },
+        {
+          "name": "host"
+        },
+        {
+          "name": "guest"
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_and_fund_escrow",
+      "discriminator": [
+        143,
+        254,
+        15,
+        181,
+        252,
+        27,
+        188,
+        229
+      ],
+      "accounts": [
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101,
+                  115,
+                  99,
+                  114,
+                  111,
+                  119
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "booking_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "guest",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "host"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "booking_id",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "host_accept",
+      "discriminator": [
+        216,
+        110,
+        192,
+        119,
+        238,
+        15,
+        228,
+        104
+      ],
+      "accounts": [
+        {
+          "name": "escrow",
+          "writable": true
+        },
+        {
+          "name": "host",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "request_cancellation",
+      "discriminator": [
+        143,
+        22,
+        73,
+        35,
+        219,
+        217,
+        185,
+        212
+      ],
+      "accounts": [
+        {
+          "name": "escrow",
+          "writable": true
+        },
+        {
+          "name": "guest"
+        },
+        {
+          "name": "host"
+        },
+        {
+          "name": "signer",
+          "signer": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Escrow",
+      "discriminator": [
+        31,
+        213,
+        123,
+        187,
+        186,
+        22,
+        218,
+        155
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ZeroAmount",
+      "msg": "Amount must be greater than zero"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidBookingId",
+      "msg": "Invalid booking ID"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidGuestHost",
+      "msg": "Guest and host cannot be the same"
+    },
+    {
+      "code": 6003,
+      "name": "UnauthorizedHost",
+      "msg": "Unauthorized host"
+    },
+    {
+      "code": 6004,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidStateTransition",
+      "msg": "Invalid state transition"
+    },
+    {
+      "code": 6006,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds in escrow"
+    }
+  ],
+  "types": [
+    {
+      "name": "Escrow",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "booking_id",
+            "type": "string"
+          },
+          {
+            "name": "guest",
+            "type": "pubkey"
+          },
+          {
+            "name": "host",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "EscrowStatus"
+              }
+            }
+          },
+          {
+            "name": "guest_confirmed_completion",
+            "type": "bool"
+          },
+          {
+            "name": "host_confirmed_completion",
+            "type": "bool"
+          },
+          {
+            "name": "guest_confirmed_cancellation",
+            "type": "bool"
+          },
+          {
+            "name": "host_confirmed_cancellation",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "EscrowStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Funded"
+          },
+          {
+            "name": "Accepted"
+          },
+          {
+            "name": "Released"
+          },
+          {
+            "name": "Refunded"
+          }
+        ]
+      }
+    }
+  ]
+}
